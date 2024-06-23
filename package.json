@@ -24,7 +24,9 @@
   "scripts": {
     "build": "bunchee",
     "build:publish": "npm run build && npm publish",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "author": "axlotl-lab",
   "license": "ISC",
@@ -39,6 +41,16 @@
     "url": "https://github.com/axlotl-lab/react-toolkit/issues"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.5.0",
+    "@storybook/addon-essentials": "^8.1.10",
+    "@storybook/addon-interactions": "^8.1.10",
+    "@storybook/addon-links": "^8.1.10",
+    "@storybook/addon-onboarding": "^8.1.10",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.4",
+    "@storybook/blocks": "^8.1.10",
+    "@storybook/react": "^8.1.10",
+    "@storybook/react-webpack5": "^8.1.10",
+    "@storybook/test": "^8.1.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "bunchee": "^5.2.2",
@@ -48,5 +60,8 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
+  },
+  "dependencies": {
+    "storybook": "^8.1.10"
   }
 }
