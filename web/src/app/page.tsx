@@ -12,96 +12,50 @@ export default function Home() {
       <div className="mt-6">
         <div className="font-mono bg-slate-200 text-black py-2 pl-2">{"<Repeater />"}</div>
 
-        <div>
+        <div className="text-sm mt-4">
           <p>
             The Repeater component allows you to repeat any content a specified number of times.
             To use the Repeater component, simply wrap the content you want to repeat and specify the number of repetitions using the `count` prop.
           </p>
           <p>
-            Works with any valid React content
+            Works with any valid React content.
           </p>
-        
-          <CodeBlock>
-            {
-              `import { Repeater } from "@axlotl-lab/react-toolkit/repeater";
+        </div>
+
+        <div className="font-semibold mt-4">Props</div>
+
+        <table className="min-w-full bg-gray-800 border border-gray-700 text-sm mt-2">
+          <thead>
+            <tr className="bg-gray-900">
+              <th className="py-2 px-4 border-b border-gray-700 text-left text-gray-300">Prop</th>
+              <th className="py-2 px-4 border-b border-gray-700 text-left text-gray-300">Type</th>
+              <th className="py-2 px-4 border-b border-gray-700 text-left text-gray-300">Required</th>
+              <th className="py-2 px-4 border-b border-gray-700 text-left text-gray-300">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="py-2 px-4 border-b border-gray-700 text-gray-300">count</td>
+              <td className="py-2 px-4 border-b border-gray-700 text-gray-300">number</td>
+              <td className="py-2 px-4 border-b border-gray-700 text-gray-300">Yes</td>
+              <td className="py-2 px-4 border-b border-gray-700 text-gray-300">The number of times the content will be repeated</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <CodeBlock>
+          {
+            `import { Repeater } from "@axlotl-lab/react-toolkit/repeater";
 
 <Repeater count={5}>
   <p>Winter is coming</p>
 </Repeater>`}
-          </CodeBlock>
+        </CodeBlock>
 
-        </div>
+        <div className="font-semibold mt-4">Example</div>
+
       </div>
 
-      <div className="mt-6 mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
   );
 }
