@@ -48,6 +48,7 @@
     "@storybook/addon-onboarding": "^8.1.10",
     "@storybook/addon-webpack5-compiler-swc": "^1.0.4",
     "@storybook/blocks": "^8.1.10",
+    "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^8.1.10",
     "@storybook/react-webpack5": "^8.1.10",
     "@storybook/test": "^8.1.10",
@@ -62,6 +63,8 @@
     "react-dom": ">=18"
   },
   "dependencies": {
+    "classnames": "^2.5.1",
+    "lucide-react": "^0.396.0",
     "storybook": "^8.1.10"
   }
 }
