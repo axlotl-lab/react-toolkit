@@ -3,14 +3,14 @@
   "version": "1.1.0",
   "description": "",
   "exports": {
-    "./components/repeater": {
+    "./components": {
       "import": {
-        "types": "./dist/components/repeater.d.mts",
-        "default": "./dist/components/repeater.mjs"
+        "types": "./dist/components.d.mts",
+        "default": "./dist/components.mjs"
       },
       "require": {
-        "types": "./dist/components/repeater.d.ts",
-        "default": "./dist/components/repeater.js"
+        "types": "./dist/components.d.ts",
+        "default": "./dist/components.js"
       }
     },
     "./hooks": {
