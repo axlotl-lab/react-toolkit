@@ -13,14 +13,14 @@
         "default": "./dist/components/repeater.js"
       }
     },
-    "./hooks/use-idle": {
+    "./hooks": {
       "import": {
-        "types": "./dist/hooks/use-idle.d.mts",
-        "default": "./dist/hooks/use-idle.mjs"
+        "types": "./dist/hooks.d.mts",
+        "default": "./dist/hooks.mjs"
       },
       "require": {
-        "types": "./dist/hooks/use-idle.d.ts",
-        "default": "./dist/hooks/use-idle.js"
+        "types": "./dist/hooks.d.ts",
+        "default": "./dist/hooks.js"
       }
     }
   },
