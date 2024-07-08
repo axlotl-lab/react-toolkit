@@ -5,8 +5,9 @@
 - [Components](#components-work-in-progress)
 - [Hooks](#hooks)
   - [useIdle](#useidle)
-  - [useCountdown](#usecountdown)
   - [Repeater](#repeater)
+  - [useCountdown](#usecountdown)
+  - [useTranslations](#usetranslations)
 
 ## Installation
 
@@ -118,3 +119,79 @@ The hook returns an object with the following properties:
 | start     | function | Function to start the countdown                    |
 | stop      | function | Function to stop the countdown                     |
 | reset     | function | Function to reset the countdown to initial values  |
+
+### useTranslations
+
+The `useTranslations` hook provides a simple way to manage translations in your React application, supporting nested keys and parameter interpolation.
+
+#### Usage
+
+```typescript
+import { useTranslations } from '@axlotl-lab/react-toolkit/hooks';
+
+const translations = {
+  greetings: {
+    hello: { en: 'Hello', es: 'Hola' },
+    welcome: { en: 'Welcome, {name}!', es: '¡Bienvenido, {name}!' }
+  }
+};
+
+function MyComponent() {
+  const t = useTranslations('es', translations, 'en');
+
+  return (
+    <div>
+      <p>{t('greetings.hello')}</p>
+      <p>{t('greetings.welcome', { name: 'John' })}</p>
+    </div>
+  );
+}
+```
+
+#### Parameters
+
+| Parameter     | Type                      | Required | Default | Description                                    |
+|---------------|---------------------------|----------|---------|------------------------------------------------|
+| locale        | string                    | Yes      | -       | The current locale to use for translations     |
+| keys          | NestedTranslations<T>     | Yes      | -       | An object containing the nested translations   |
+| defaultLocale | string                    | No       | 'en'    | Fallback locale if translation is not found    |
+
+#### Return Value
+
+The hook returns a translation function with the following signature:
+
+```typescript
+(key: FlattenObjectKeys<T>, params?: Record<string, string | number>) => string
+```
+
+- `key`: A string representing the nested path to the translation (e.g., 'greetings.hello')
+- `params`: An optional object containing parameters to interpolate into the translation
+
+#### Features
+
+1. **Nested Translations**: Supports deeply nested translation objects.
+2. **Type Safety**: Uses TypeScript to ensure type safety for translation keys.
+3. **Parameter Interpolation**: Allows passing parameters to be interpolated into the translation strings.
+4. **Fallback Locale**: Uses a default locale if the translation is not found in the current locale.
+5. **Warning for Missing Translations**: Logs a warning to the console if a translation key is not found.
+
+#### Types
+
+```typescript
+type NestedTranslations<T extends Record<string, any>> = {
+  [K in keyof T]: T[K] extends Record<string, any>
+    ? NestedTranslations<T[K]>
+    : Record<string, string>;
+};
+
+type FlattenObjectKeys<T extends Record<string, any>> = {
+  [K in keyof T]: T[K] extends Record<string, any>
+    ? `${K & string}.${FlattenObjectKeys<T[K]> & string}`
+    : K;
+}[keyof T];
+```
+
+#### Notes
+
+- Ensure that all your translation objects follow the same structure across different locales.
+- The hook will return the key itself if no translation is found, allowing for easy identification of missing translations.
