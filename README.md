@@ -2,10 +2,10 @@
 
 ## Table of Contents
 - [Installation](#installation)
-- [Components](#components-work-in-progress)
+- [Components](#components)
+  - [Repeater](#repeater)
 - [Hooks](#hooks)
   - [useIdle](#useidle)
-  - [Repeater](#repeater)
   - [useCountdown](#usecountdown)
   - [useTranslations](#usetranslations)
 
@@ -15,9 +15,27 @@
 npm install @axlotl-lab/react-toolkit
 ```
 
-## Components (Work in Progress)
+## Components
 
-We are currently developing a set of reusable React components. More details will be available soon.
+### Repeater
+
+The Repeater component allows you to repeat any content a specified number of times.
+
+#### Usage
+
+```jsx
+import { Repeater } from '@axlotl-lab/react-toolkit/hooks';
+
+<Repeater count={5}>
+  <p>Hello</p>
+</Repeater>
+```
+
+#### Props
+
+| Prop  | Type   | Required | Description                                    |
+|-------|--------|----------|------------------------------------------------|
+| count | number | Yes      | The number of times the content will be repeated |
 
 ## Hooks
 
@@ -50,26 +68,6 @@ function MyComponent() {
 #### Return Value
 
 Returns a boolean: `true` if the user is idle, `false` if active.
-
-### Repeater
-
-The Repeater component allows you to repeat any content a specified number of times.
-
-#### Usage
-
-```jsx
-import { Repeater } from '@axlotl-lab/react-toolkit/hooks';
-
-<Repeater count={5}>
-  <p>Hello</p>
-</Repeater>
-```
-
-#### Props
-
-| Prop  | Type   | Required | Description                                    |
-|-------|--------|----------|------------------------------------------------|
-| count | number | Yes      | The number of times the content will be repeated |
 
 ### useCountdown
 
