@@ -8,7 +8,7 @@
   - [useIdle](#useidle)
   - [useCountdown](#usecountdown)
   - [useTranslations](#usetranslations)
-  - [useLoadingDots](#loadingdots)
+  - [useLoadingDots](#useloadingdots)
 
 ## Installation
 
