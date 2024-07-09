@@ -8,6 +8,7 @@
   - [useIdle](#useidle)
   - [useCountdown](#usecountdown)
   - [useTranslations](#usetranslations)
+  - [useLoadingDots](#loadingdots)
 
 ## Installation
 
@@ -193,3 +194,53 @@ type FlattenObjectKeys<T extends Record<string, any>> = {
 
 - Ensure that all your translation objects follow the same structure across different locales.
 - The hook will return the key itself if no translation is found, allowing for easy identification of missing translations.
+
+### useLoadingDots
+
+The `useLoadingDots` hook provides a simple way to create an animated loading indicator using dots. It's useful for showing that a process is ongoing or content is loading.
+
+#### Usage
+
+```jsx
+import React from 'react';
+import { useLoadingDots } from 'your-library-name';
+
+function LoadingComponent() {
+  const dots = useLoadingDots();
+
+  return <div>Loading{dots}</div>;
+}
+```
+
+#### Parameters
+
+| Parameter    | Type   | Required | Default | Description                                    |
+|--------------|--------|----------|---------|------------------------------------------------|
+| intervalTime | number | No       | 500     | The interval in milliseconds between dot updates |
+
+#### Return Value
+
+The hook returns a string (`dots`) that represents the current state of the loading indicator. The string cycles through '', '.', '..', and '...'.
+
+#### Features
+
+1. **Customizable Interval**: The speed of the animation can be adjusted by changing the `intervalTime` parameter.
+2. **Automatic Cycling**: The dots automatically cycle from no dots to three dots and back.
+3. **Clean Up**: The hook properly cleans up the interval when the component unmounts.
+
+#### Example
+
+```jsx
+import React from 'react';
+import { useLoadingDots } from 'your-library-name';
+
+function LoadingButton({ isLoading, onClick, children }) {
+  const dots = useLoadingDots(300); // faster animation
+
+  return (
+    <button onClick={onClick} disabled={isLoading}>
+      {isLoading ? `Loading${dots}` : children}
+    </button>
+  );
+}
+```
