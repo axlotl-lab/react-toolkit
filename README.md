@@ -25,7 +25,7 @@ The Repeater component allows you to repeat any content a specified number of ti
 #### Usage
 
 ```jsx
-import { Repeater } from '@axlotl-lab/react-toolkit/hooks';
+import { Repeater } from '@axlotl-lab/react-toolkit/components';
 
 <Repeater count={5}>
   <p>Hello</p>
@@ -203,7 +203,7 @@ The `useLoadingDots` hook provides a simple way to create an animated loading in
 
 ```jsx
 import React from 'react';
-import { useLoadingDots } from 'your-library-name';
+import { useLoadingDots } from '@axlotl-lab/react-toolkit/hooks';
 
 function LoadingComponent() {
   const dots = useLoadingDots();
@@ -232,7 +232,7 @@ The hook returns a string (`dots`) that represents the current state of the load
 
 ```jsx
 import React from 'react';
-import { useLoadingDots } from 'your-library-name';
+import { useLoadingDots } from '@axlotl-lab/react-toolkit/hooks';
 
 function LoadingButton({ isLoading, onClick, children }) {
   const dots = useLoadingDots(300); // faster animation
