@@ -19,11 +19,12 @@ type FlattenObjectKeys<T, D extends number = 10> = [D] extends [never] ? never :
     never : never
   }[keyof T] : "";
 
-export const useTranslations = <T extends Record<string, any>>(
+type UseTranslationsProps<T extends Record<string, any>> = {
   locale: string,
-  keys: NestedTranslations<T>,
-  defaultLocale: string = 'en'
-) => {
+  translations: NestedTranslations<T>,
+  defaultLocale: string
+}
+export const useTranslations = <T extends Record<string, any>>({ locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T>) => {
   const getNestedValue = (obj: any, path: string): string | undefined => {
     const parts = path.split('.');
     let current = obj;
@@ -37,7 +38,7 @@ export const useTranslations = <T extends Record<string, any>>(
   };
 
   return (key: FlattenObjectKeys<T>, params?: Record<string, string | number>): string => {
-    const translation = getNestedValue(keys, key as string);
+    const translation = getNestedValue(translations, key as string);
 
     if (translation === undefined) {
       console.warn(`Translation key "${key}" not found`);

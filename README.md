@@ -136,7 +136,8 @@ const translations = {
 };
 
 function MyComponent() {
-  const t = useTranslations('es', translations, 'en');
+  const locale = 'es'
+  const t = useTranslations({locale, translations});
 
   return (
     <div>
