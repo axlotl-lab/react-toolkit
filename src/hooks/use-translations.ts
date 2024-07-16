@@ -22,7 +22,7 @@ type FlattenObjectKeys<T, D extends number = 10> = [D] extends [never] ? never :
 type UseTranslationsProps<T extends Record<string, any>> = {
   locale: string,
   translations: NestedTranslations<T>,
-  defaultLocale: string
+  defaultLocale?: string
 }
 export const useTranslations = <T extends Record<string, any>>({ locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T>) => {
   const getNestedValue = (obj: any, path: string): string | undefined => {
