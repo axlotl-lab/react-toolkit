@@ -137,7 +137,7 @@ const translations = {
 
 function MyComponent() {
   const locale = 'es'
-  const t = useTranslations({locale, translations});
+  const t = useTranslations({ locale, translations });
 
   return (
     <div>
@@ -153,7 +153,7 @@ function MyComponent() {
 | Parameter     | Type                      | Required | Default | Description                                    |
 |---------------|---------------------------|----------|---------|------------------------------------------------|
 | locale        | string                    | Yes      | -       | The current locale to use for translations     |
-| keys          | NestedTranslations<T>     | Yes      | -       | An object containing the nested translations   |
+| translations  | NestedTranslations<T>     | Yes      | -       | An object containing the translations   |
 | defaultLocale | string                    | No       | 'en'    | Fallback locale if translation is not found    |
 
 #### Return Value
