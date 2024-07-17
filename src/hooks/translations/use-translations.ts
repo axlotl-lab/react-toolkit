@@ -30,7 +30,7 @@ export const useTranslations = <T extends Record<string, any>>({ locale, transla
     let result = translation;
     if (params) {
       Object.entries(params).forEach(([param, value]) => {
-        result = result.replace(`{${param}}`, String(value));
+        result = result.replace(new RegExp(`{${param}}`, 'g'), String(value));
       });
     }
 
