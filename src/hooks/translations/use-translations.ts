@@ -19,7 +19,7 @@ export const useTranslations = <T extends Record<string, any>>({ locale, transla
     return typeof current === 'object' ? current[locale] || current[defaultLocale] : undefined;
   };
 
-  return (key: FlattenObjectKeys<T>, params?: Record<string, string | number>): string => {
+  return (key: FlattenObjectKeys<T>, values?: Record<string, string | number>): string => {
     const translation = getNestedValue(translations, key as string);
 
     if (translation === undefined) {
@@ -28,8 +28,8 @@ export const useTranslations = <T extends Record<string, any>>({ locale, transla
     }
 
     let result = translation;
-    if (params) {
-      Object.entries(params).forEach(([param, value]) => {
+    if (values) {
+      Object.entries(values).forEach(([param, value]) => {
         result = result.replace(new RegExp(`{${param}}`, 'g'), String(value));
       });
     }
