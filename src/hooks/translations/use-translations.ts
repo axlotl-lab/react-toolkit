@@ -6,6 +6,16 @@ type UseTranslationsProps<T extends Record<string, any>> = {
   defaultLocale?: string
 }
 
+type ComponentFunction = (text?: string) => React.ReactNode;
+
+type StaticTranslationFunction<T> = (
+  key: FlattenObjectKeys<T>, values?: Record<string, string | number>
+) => string
+
+type RichTranslationFunction<T> = (
+  key: FlattenObjectKeys<T>, components?: Record<string, ComponentFunction>
+) => React.ReactNode
+
 export const useTranslations = <T extends Record<string, any>>({ locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T>) => {
   const getNestedValue = (obj: any, path: string): string | undefined => {
     const parts = path.split('.');
@@ -19,7 +29,7 @@ export const useTranslations = <T extends Record<string, any>>({ locale, transla
     return typeof current === 'object' ? current[locale] || current[defaultLocale] : undefined;
   };
 
-  return (key: FlattenObjectKeys<T>, values?: Record<string, string | number>): string => {
+  const staticMessages: StaticTranslationFunction<T> = (key, values): string => {
     const translation = getNestedValue(translations, key as string);
 
     if (translation === undefined) {
@@ -36,4 +46,42 @@ export const useTranslations = <T extends Record<string, any>>({ locale, transla
 
     return result;
   };
+
+  const richMessages: RichTranslationFunction<T> = (key, components = {}) => {
+    const translation = getNestedValue(translations, key as string);
+
+    if (translation === undefined) {
+      console.warn(`Translation key "${key}" not found`);
+      return key;
+    }
+
+    const regex = /<(\w+)(\s*\/>|>(.*?)<\/\1>)/gs;
+    let lastIndex = 0;
+    const result: React.ReactNode[] = [];
+
+    translation.replace(regex, (match, tag, _, content, index) => {
+      if (index > lastIndex) {
+        result.push(translation.slice(lastIndex, index));
+      }
+
+      if (components[tag]) {
+        result.push(components[tag](content?.trim()));
+      } else {
+        result.push(match);
+      }
+
+      lastIndex = index + match.length;
+      return match;
+    });
+
+    if (lastIndex < translation.length) {
+      result.push(translation.slice(lastIndex));
+    }
+
+    return result;
+  };
+
+  const t = Object.assign(staticMessages, { rich: richMessages });
+
+  return t;
 };
