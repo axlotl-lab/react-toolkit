@@ -121,7 +121,7 @@ The hook returns an object with the following properties:
 
 ### useTranslations
 
-The `useTranslations` hook provides a simple way to manage translations in your React application, supporting nested keys and parameter interpolation.
+The `useTranslations` hook provides a versatile way to manage translations in your React application, supporting nested keys, parameter interpolation, and rich content with React components.
 
 #### Usage
 
@@ -131,7 +131,11 @@ import { useTranslations } from '@axlotl-lab/react-toolkit/hooks';
 const translations = {
   greetings: {
     hello: { en: 'Hello', es: 'Hola' },
-    welcome: { en: 'Welcome, {name}!', es: '¡Bienvenido, {name}!' }
+    welcome: { en: 'Welcome, {name}!', es: '¡Bienvenido, {name}!' },
+    richWelcome: { 
+      en: 'Welcome to our <bold>website</bold>! <image/>',
+      es: '¡Bienvenido a nuestro <bold>sitio web</bold>! <image/>'
+    }
   }
 };
 
@@ -143,6 +147,10 @@ function MyComponent() {
     <div>
       <p>{t('greetings.hello')}</p>
       <p>{t('greetings.welcome', { name: 'John' })}</p>
+      {t.rich('greetings.richWelcome', {
+        bold: (text) => <strong>{text}</strong>,
+        image: () => <img src="/logo.png" alt="Logo" />
+      })}
     </div>
   );
 }
@@ -158,43 +166,36 @@ function MyComponent() {
 
 #### Return Value
 
-The hook returns a translation function with the following signature:
+The hook returns an object with two functions:
 
-```typescript
-(key: FlattenObjectKeys<T>, params?: Record<string, string | number>) => string
-```
+1. A static translation function (default):
+   ```typescript
+   (key: FlattenObjectKeys<T>, params?: Record<string, string | number>) => string
+   ```
+   - `key`: A string representing the nested path to the translation (e.g., 'greetings.hello')
+   - `params`: An optional object containing parameters to interpolate into the translation
 
-- `key`: A string representing the nested path to the translation (e.g., 'greetings.hello')
-- `params`: An optional object containing parameters to interpolate into the translation
+2. A rich translation function (accessed via `.rich`):
+   ```typescript
+   rich: (key: FlattenObjectKeys<T>, components?: Record<string, ComponentFunction>) => React.ReactNode
+   ```
+   - `key`: A string representing the nested path to the translation
+   - `components`: An object where keys are component names and values are functions that return React elements
 
 #### Features
 
 1. **Nested Translations**: Supports deeply nested translation objects.
 2. **Type Safety**: Uses TypeScript to ensure type safety for translation keys.
 3. **Parameter Interpolation**: Allows passing parameters to be interpolated into the translation strings.
-4. **Fallback Locale**: Uses a default locale if the translation is not found in the current locale.
-5. **Warning for Missing Translations**: Logs a warning to the console if a translation key is not found.
-
-#### Types
-
-```typescript
-type NestedTranslations<T extends Record<string, any>> = {
-  [K in keyof T]: T[K] extends Record<string, any>
-    ? NestedTranslations<T[K]>
-    : Record<string, string>;
-};
-
-type FlattenObjectKeys<T extends Record<string, any>> = {
-  [K in keyof T]: T[K] extends Record<string, any>
-    ? `${K & string}.${FlattenObjectKeys<T[K]> & string}`
-    : K;
-}[keyof T];
-```
+4. **Rich Content**: Supports embedding React components within translations.
+5. **Fallback Locale**: Uses a default locale if the translation is not found in the current locale.
+6. **Warning for Missing Translations**: Logs a warning to the console if a translation key is not found.
 
 #### Notes
 
 - Ensure that all your translation objects follow the same structure across different locales.
 - The hook will return the key itself if no translation is found, allowing for easy identification of missing translations.
+- When using rich translations, make sure to provide all necessary component functions to avoid unprocessed tags in the output.
 
 ### useLoadingDots
 
