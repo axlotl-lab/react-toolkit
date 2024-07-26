@@ -1,5 +1,5 @@
 import React from "react";
-import { throttle } from "./utils";
+import { throttle } from "../utils/throttle";
 
 export function useIdle(secondsToIdle: number) {
   const [idle, setIdle] = React.useState(false);
