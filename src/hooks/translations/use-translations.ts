@@ -1,4 +1,9 @@
+import { deepMerge } from "../../utils/deep-merge";
 import { FlattenObjectKeys, NestedTranslations } from "./types";
+
+
+type AllTranslations<T> = GlobalTranslations & T;
+type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
 type UseTranslationsProps<T extends Record<string, any>> = {
   locale: string,
@@ -9,14 +14,22 @@ type UseTranslationsProps<T extends Record<string, any>> = {
 type ComponentFunction = (text?: string) => React.ReactNode;
 
 type StaticTranslationFunction<T> = (
-  key: FlattenObjectKeys<T>, values?: Record<string, string | number>
+  key: TranslationKey<T>, values?: Record<string, string | number>
 ) => string
 
 type RichTranslationFunction<T> = (
-  key: FlattenObjectKeys<T>, components?: Record<string, ComponentFunction>
+  key: TranslationKey<T>, components?: Record<string, ComponentFunction>
 ) => React.ReactNode
 
+let globalTranslations = {};
+
+export function setGlobalTranslations(translations: GlobalTranslations) {
+  globalTranslations = translations;
+}
+
 export const useTranslations = <T extends Record<string, any>>({ locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T>) => {
+  const combinedTranslations = deepMerge(globalTranslations, translations);
+
   const getNestedValue = (obj: any, path: string): string | undefined => {
     const parts = path.split('.');
     let current = obj;
@@ -30,7 +43,7 @@ export const useTranslations = <T extends Record<string, any>>({ locale, transla
   };
 
   const staticMessages: StaticTranslationFunction<T> = (key, values): string => {
-    const translation = getNestedValue(translations, key as string);
+    const translation = getNestedValue(combinedTranslations, key as string);
 
     if (translation === undefined) {
       console.warn(`Translation key "${key}" not found`);
@@ -48,7 +61,7 @@ export const useTranslations = <T extends Record<string, any>>({ locale, transla
   };
 
   const richMessages: RichTranslationFunction<T> = (key, components = {}) => {
-    const translation = getNestedValue(translations, key as string);
+    const translation = getNestedValue(combinedTranslations, key as string);
 
     if (translation === undefined) {
       console.warn(`Translation key "${key}" not found`);
