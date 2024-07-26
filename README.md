@@ -170,14 +170,14 @@ The hook returns an object with two functions:
 
 1. A static translation function (default):
    ```typescript
-   (key: FlattenObjectKeys<T>, params?: Record<string, string | number>) => string
+   (key: TranslationKey<T>, params?: Record<string, string | number>) => string
    ```
    - `key`: A string representing the nested path to the translation (e.g., 'greetings.hello')
    - `params`: An optional object containing parameters to interpolate into the translation
 
 2. A rich translation function (accessed via `.rich`):
    ```typescript
-   rich: (key: FlattenObjectKeys<T>, components?: Record<string, ComponentFunction>) => React.ReactNode
+   rich: (key: TranslationKey<T>, components?: Record<string, ComponentFunction>) => React.ReactNode
    ```
    - `key`: A string representing the nested path to the translation
    - `components`: An object where keys are component names and values are functions that return React elements
