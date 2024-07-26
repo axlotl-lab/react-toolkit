@@ -3,8 +3,7 @@ type Join<K, P> = K extends string | number ?
   `${K}${"" extends P ? "" : "."}${P}`
   : never : never;
 
-type Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-  11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...0[]];
+type Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ...0[]];
 
 export type NestedTranslations<T> = {
   [K in keyof T]: T[K] extends Record<string, string>
