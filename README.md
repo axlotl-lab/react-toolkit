@@ -191,11 +191,29 @@ The hook returns an object with two functions:
 5. **Fallback Locale**: Uses a default locale if the translation is not found in the current locale.
 6. **Warning for Missing Translations**: Logs a warning to the console if a translation key is not found.
 
+#### Global Translations
+
+To set global translations:
+
+```typescript
+import { setGlobalTranslations } from '@axlotl-lab/react-toolkit/hooks';
+
+setGlobalTranslations({
+  common: {
+    submit: { en: 'Submit', es: 'Enviar' },
+    cancel: { en: 'Cancel', es: 'Cancelar' }
+  }
+});
+```
+
+Global translations are merged with local translations, with local translations taking precedence in case of conflicts.
+
 #### Notes
 
 - Ensure that all your translation objects follow the same structure across different locales.
 - The hook will return the key itself if no translation is found, allowing for easy identification of missing translations.
 - When using rich translations, make sure to provide all necessary component functions to avoid unprocessed tags in the output.
+- Global translations are merged with local translations using a deep merge function, ensuring that all nested structures are properly combined.
 
 ### useLoadingDots
 
