@@ -208,6 +208,62 @@ setGlobalTranslations({
 
 Global translations are merged with local translations, with local translations taking precedence in case of conflicts.
 
+#### Autocomplete for Global Translations
+
+To enable autocomplete for global translations in your IDE, you can define a type for your global translations and extend the `GlobalTranslations` interface. Here's how to set it up:
+
+1. Define your global translations type:
+
+```typescript
+// globalTranslations.ts
+export const globalTranslations = {
+  common: {
+    submit: { en: 'Submit', es: 'Enviar' },
+    cancel: { en: 'Cancel', es: 'Cancelar' }
+  },
+  navigation: {
+    home: { en: 'Home', es: 'Inicio' },
+    about: { en: 'About', es: 'Acerca de' }
+  }
+};
+
+export type GlobalTranslationsType = typeof globalTranslations;
+```
+
+2. Create a declaration file (e.g., `global.d.ts`) in your project root or src directory:
+
+```typescript
+// global.d.ts
+import { GlobalTranslationsType } from './globalTranslations';
+
+declare global {
+  type GlobalTranslations = GlobalTranslationsType
+}
+```
+
+3. Now, when you use the `useTranslations` hook, you'll get autocomplete for both global and local translations:
+
+```typescript
+import { useTranslations } from '@axlotl-lab/react-toolkit/hooks';
+
+function MyComponent() {
+  const t = useTranslations({ locale: 'en', translations: localTranslations });
+
+  return (
+    <div>
+      <button>{t('common.submit')}</button> {/* Autocomplete works for global translations */}
+      <p>{t('myLocalKey')}</p> {/* Autocomplete works for local translations */}
+    </div>
+  );
+}
+```
+
+By following these steps, your IDE will provide autocomplete suggestions for global translation keys, improving developer experience and reducing errors.
+
+Make sure your `tsconfig.json` includes the path to your declaration file.
+
+This setup allows you to maintain type safety and get autocomplete for your global translations across your entire project.
+
 #### Notes
 
 - Ensure that all your translation objects follow the same structure across different locales.
