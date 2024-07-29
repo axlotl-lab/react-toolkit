@@ -1,7 +1,6 @@
 import { deepMerge } from "../../utils/deep-merge";
 import { FlattenObjectKeys, NestedTranslations } from "./types";
 
-
 type AllTranslations<T> = GlobalTranslations & T;
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
@@ -68,7 +67,8 @@ export const useTranslations = <T extends Record<string, any>>({ locale, transla
       return key;
     }
 
-    const regex = /<(\w+)(\s*\/>|>(.*?)<\/\1>)/gs;
+    const regex = /<(\w+)(\s*\/>|>([^<]*))<\/\1>/g;
+
     let lastIndex = 0;
     const result: React.ReactNode[] = [];
 
