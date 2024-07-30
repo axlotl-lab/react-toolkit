@@ -1,10 +1,14 @@
 import { deepMerge } from "../../utils/deep-merge";
 import { FlattenObjectKeys, NestedTranslations } from "./types";
 
-type AllTranslations<T> = GlobalTranslations & T;
+declare global {
+  type GlobalTranslations = never
+}
+
+type AllTranslations<T> = GlobalTranslations extends never ? T : GlobalTranslations | T;
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
-type UseTranslationsProps<T extends Record<string, any>> = {
+type UseTranslationsProps<T> = {
   locale: string,
   translations: NestedTranslations<T>,
   defaultLocale?: string
@@ -22,7 +26,7 @@ type RichTranslationFunction<T> = (
 
 let globalTranslations = {};
 
-export function setGlobalTranslations(translations: GlobalTranslations) {
+export function setGlobalTranslations<T>(translations: NestedTranslations<T>) {
   globalTranslations = translations;
 }
 
