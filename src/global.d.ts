@@ -1,3 +1,3 @@
 export declare global {
-  type GlobalTranslations = {}
+  type GlobalTranslations = never
 }
