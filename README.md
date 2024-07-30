@@ -234,10 +234,12 @@ export type GlobalTranslationsType = typeof globalTranslations;
 
 ```typescript
 // global.d.ts
-import { GlobalTranslationsType } from './globalTranslations';
+import { common } from "./translations/common";
 
-declare global {
-  type GlobalTranslations = GlobalTranslationsType
+type Messages = typeof common;
+
+declare module "@axlotl-lab/react-toolkit/hooks" {
+  type GlobalTranslations = Messages
 }
 ```
 
