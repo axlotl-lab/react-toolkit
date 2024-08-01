@@ -161,7 +161,7 @@ function MyComponent() {
 | Parameter     | Type                      | Required | Default | Description                                    |
 |---------------|---------------------------|----------|---------|------------------------------------------------|
 | locale        | string                    | Yes      | -       | The current locale to use for translations     |
-| translations  | NestedTranslations<T>     | Yes      | -       | An object containing the translations   |
+| translations  | NestedTranslations<T>     | No      | -       | An object containing the translations   |
 | defaultLocale | string                    | No       | 'en'    | Fallback locale if translation is not found    |
 
 #### Return Value
