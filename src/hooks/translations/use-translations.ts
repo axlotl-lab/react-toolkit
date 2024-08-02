@@ -7,7 +7,7 @@ declare global {
 
 type AllTranslations<T> = GlobalTranslations extends never
   ? T
-  : GlobalTranslations extends {} ? GlobalTranslations : GlobalTranslations | T;
+  : GlobalTranslations extends undefined ? GlobalTranslations : GlobalTranslations | T;
 
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
