@@ -2,12 +2,12 @@ import { deepMerge } from "../../utils/deep-merge";
 import { FlattenObjectKeys, NestedTranslations } from "./types";
 
 declare global {
-  type GlobalTranslations = never
+  export type GlobalTranslations = never
 }
 
 type AllTranslations<T> = GlobalTranslations extends never
   ? T
-  : GlobalTranslations extends undefined ? GlobalTranslations : GlobalTranslations | T;
+  : GlobalTranslations | T
 
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
