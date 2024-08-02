@@ -5,7 +5,10 @@ declare global {
   type GlobalTranslations = never
 }
 
-type AllTranslations<T> = GlobalTranslations extends never ? T : GlobalTranslations | T;
+type AllTranslations<T> = GlobalTranslations extends never
+  ? T
+  : GlobalTranslations extends {} ? GlobalTranslations : GlobalTranslations | T;
+
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
 type UseTranslationsProps<T> = {
