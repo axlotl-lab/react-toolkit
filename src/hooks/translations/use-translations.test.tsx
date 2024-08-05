@@ -1,3 +1,4 @@
+import { renderHook } from '@testing-library/react';
 import React from 'react';
 import { setGlobalTranslations, useTranslations } from './../translations';
 
@@ -96,10 +97,42 @@ describe('Translations', () => {
       const t = useTranslations({ locale: 'en', translations: {} });
       expect(t('nonexistent.key')).toBe('nonexistent.key');
     });
-  });
 
-  describe('useTranslations', () => {
-    // ... tus tests existentes ...
+    it('should maintain separate translations for multiple hook calls', () => {
+      // Primera llamada al hook
+      const { result: result1 } = renderHook(() =>
+        useTranslations({
+          locale: 'es',
+          translations: {
+            key1: { es: 'Valor 1', en: 'Value 1' },
+            shared: { es: 'Compartido 1', en: 'Shared 1' }
+          }
+        })
+      );
+
+      // Segunda llamada al hook
+      const { result: result2 } = renderHook(() =>
+        useTranslations({
+          locale: 'es',
+          translations: {
+            key2: { es: 'Valor 2', en: 'Value 2' },
+            shared: { es: 'Compartido 2', en: 'Shared 2' }
+          }
+        })
+      );
+
+      // Verificar que cada hook mantiene sus propias traducciones
+      expect(result1.current('key1')).toBe('Valor 1');
+      expect(result2.current('key2')).toBe('Valor 2');
+
+      // Verificar que las claves compartidas no se pisan entre sí
+      expect(result1.current('shared')).toBe('Compartido 1');
+      expect(result2.current('shared')).toBe('Compartido 2');
+
+      // Verificar que las claves no definidas en un hook no afectan al otro
+      expect(result1.current('key2' as any)).toBe('key2');
+      expect(result2.current('key1' as any)).toBe('key1');
+    });
 
     describe('handling non-existent keys', () => {
       let consoleSpy: jest.SpyInstance;
