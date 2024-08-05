@@ -19,7 +19,9 @@ const config: Config = {
     "json",
     "node"
   ],
-  preset: "ts-jest"
+  preset: "ts-jest",
+  testEnvironment: "jest-environment-jsdom",
+  moduleDirectories: ['node_modules'],
 };
 
 export default config;
