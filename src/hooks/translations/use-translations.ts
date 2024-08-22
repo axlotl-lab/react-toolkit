@@ -2,7 +2,7 @@ import { deepMerge } from "../../utils/deep-merge";
 import { FlattenObjectKeys, NestedTranslations } from "./types";
 
 declare global {
-  export type GlobalTranslations = never
+  type GlobalTranslations = never
 }
 
 type AllTranslations<T> = GlobalTranslations extends never
@@ -20,7 +20,7 @@ type UseTranslationsProps<T> = {
 type ComponentFunction = (text?: string) => React.ReactNode;
 
 type StaticTranslationFunction<T> = (
-  key: TranslationKey<T>, values?: Record<string, string | number>
+  key: TranslationKey<T>, values?: Record<string, string>
 ) => string
 
 type RichTranslationFunction<T> = (

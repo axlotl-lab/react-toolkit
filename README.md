@@ -170,7 +170,7 @@ The hook returns an object with two functions:
 
 1. A static translation function (default):
    ```typescript
-   (key: TranslationKey<T>, params?: Record<string, string | number>) => string
+   (key: TranslationKey<T>, params?: Record<string, string>) => string
    ```
    - `key`: A string representing the nested path to the translation (e.g., 'greetings.hello')
    - `params`: An optional object containing parameters to interpolate into the translation
