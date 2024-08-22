@@ -7,7 +7,7 @@ declare global {
 
 type AllTranslations<T> = GlobalTranslations extends never
   ? T
-  : GlobalTranslations | T
+  : T extends {} ? T | GlobalTranslations : GlobalTranslations
 
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
@@ -33,7 +33,7 @@ export function setGlobalTranslations<T>(translations: NestedTranslations<T>) {
   globalTranslations = translations;
 }
 
-export const useTranslations = <T extends Record<string, any>>({ locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T>) => {
+export const useTranslations = <T>({ locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T>) => {
   const combinedTranslations = deepMerge({}, globalTranslations, translations || {});
 
   const getNestedValue = (obj: any, path: string): string | undefined => {

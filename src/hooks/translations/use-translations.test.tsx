@@ -14,8 +14,8 @@ describe('Translations', () => {
         }
       };
       setGlobalTranslations(globalTranslations);
-      const t = useTranslations({ locale: 'en', translations: {} });
-      expect(t('common.hello')).toBe('Hello');
+      const t = useTranslations({ locale: 'en' });
+      expect(t('common.hello' as any)).toBe('Hello');
     });
   });
 
@@ -95,7 +95,7 @@ describe('Translations', () => {
 
     it('should return key if translation is not found', () => {
       const t = useTranslations({ locale: 'en', translations: {} });
-      expect(t('nonexistent.key')).toBe('nonexistent.key');
+      expect(t('nonexistent.key' as any)).toBe('nonexistent.key');
     });
 
     it('should maintain separate translations for multiple hook calls', () => {
