@@ -211,5 +211,24 @@ describe('Translations', () => {
         expect(consoleSpy).not.toHaveBeenCalled();
       });
     });
+
+    describe('checking if translation key exists', () => {
+      const localTranslations = {
+        existingKey: {
+          en: 'Existing translation'
+        },
+      };
+
+      it('should return false if the key does not exist', () => {
+        const t = useTranslations({ locale: 'en', translations: localTranslations });
+
+        const nonExistentKey = 'non.existent.key';
+        const nonExistingResult = t.exists(nonExistentKey as any);
+        const existingResult = t.exists('existingKey');
+
+        expect(nonExistingResult).toBeFalsy();
+        expect(existingResult).toBeTruthy();
+      });
+    })
   });
 });

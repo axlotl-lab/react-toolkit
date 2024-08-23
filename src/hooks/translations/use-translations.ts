@@ -101,7 +101,11 @@ export const useTranslations = <T>({ locale, translations, defaultLocale = 'en' 
     return result;
   };
 
-  const t = Object.assign(staticMessages, { rich: richMessages });
+  const exists = (key: string): boolean => {
+    return Boolean(getNestedValue(combinedTranslations, key))
+  }
+
+  const t = Object.assign(staticMessages, { rich: richMessages, exists });
 
   return t;
 };
