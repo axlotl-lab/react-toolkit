@@ -1,5 +1,6 @@
 import { deepMerge } from "../../utils/deep-merge";
 import { FlattenObjectKeys, NestedTranslations } from "./types";
+import { useLocale } from "./use-locale";
 
 declare global {
   type GlobalTranslations = never
@@ -12,7 +13,7 @@ type AllTranslations<T> = GlobalTranslations extends never
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
 type UseTranslationsProps<T> = {
-  locale: string,
+  locale?: string,
   translations?: NestedTranslations<T>,
   defaultLocale?: string
 }
@@ -33,8 +34,16 @@ export function setGlobalTranslations<T>(translations: NestedTranslations<T>) {
   globalTranslations = translations;
 }
 
-export const useTranslations = <T>({ locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T>) => {
+export const useTranslations = <T>(
+  { locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T> = {}
+) => {
+  const localeFromContext = useLocale();
   const combinedTranslations = deepMerge({}, globalTranslations, translations || {});
+  const validLocale = localeFromContext || locale;
+
+  if (!validLocale) {
+    throw new Error("It seems that the provider is not implemented and that the `locale` attribute is not being passed as a parameter in the useTranslations hook.")
+  }
 
   const getNestedValue = (obj: any, path: string): string | undefined => {
     const parts = path.split('.');
@@ -45,7 +54,7 @@ export const useTranslations = <T>({ locale, translations, defaultLocale = 'en' 
       }
       current = current[part];
     }
-    return typeof current === 'object' ? current[locale] || current[defaultLocale] : undefined;
+    return typeof current === 'object' ? current[validLocale] || current[defaultLocale] : undefined;
   };
 
   const staticMessages: StaticTranslationFunction<T> = (key, values): string => {
