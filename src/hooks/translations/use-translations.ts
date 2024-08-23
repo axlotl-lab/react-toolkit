@@ -39,11 +39,7 @@ export const useTranslations = <T>(
 ) => {
   const localeFromContext = useLocale();
   const combinedTranslations = deepMerge({}, globalTranslations, translations || {});
-  const validLocale = localeFromContext || locale;
-
-  if (!validLocale) {
-    throw new Error("It seems that the provider is not implemented and that the `locale` attribute is not being passed as a parameter in the useTranslations hook.")
-  }
+  const innerLocale = locale || localeFromContext;
 
   const getNestedValue = (obj: any, path: string): string | undefined => {
     const parts = path.split('.');
@@ -54,7 +50,7 @@ export const useTranslations = <T>(
       }
       current = current[part];
     }
-    return typeof current === 'object' ? current[validLocale] || current[defaultLocale] : undefined;
+    return typeof current === 'object' ? current[innerLocale] || current[defaultLocale] : undefined;
   };
 
   const staticMessages: StaticTranslationFunction<T> = (key, values): string => {

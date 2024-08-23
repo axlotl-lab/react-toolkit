@@ -18,12 +18,11 @@ describe('useLocale', () => {
     expect(result.current).toBe('en');
   });
 
-  it('should log a message if context is not provided', () => {
-    console.info = jest.fn();
+  it('should throw an error if context is not provided', () => {
+    const t = () => {
+      renderHook(() => useLocale());
+    }
 
-    const { result } = renderHook(() => useLocale());
-
-    expect(result.current).toBeUndefined();
-    expect(console.info).toHaveBeenCalledWith('It seems that the provider `TranslationsProvider` is not implemented.');
+    expect(t).toThrow("It seems that the provider `<TranslationsProvider />` is not implemented.");
   });
 });

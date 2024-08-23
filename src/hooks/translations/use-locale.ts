@@ -5,8 +5,8 @@ export const useLocale = () => {
   const context = React.useContext(TranslationsProviderContext);
 
   if (!context) {
-    console.info('It seems that the provider `TranslationsProvider` is not implemented.')
+    throw new Error('It seems that the provider `<TranslationsProvider />` is not implemented.');
   }
 
-  return context?.locale;
+  return context.locale;
 };

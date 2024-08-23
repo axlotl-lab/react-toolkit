@@ -232,21 +232,5 @@ describe('Translations', () => {
         expect(existingResult).toBeTruthy();
       });
     })
-
-    describe('not using using translations provider', () => {
-
-      it('should fail if the locale is not passed to the hook', () => {
-
-        const translations = {
-          hello: { en: "Hello", es: "Hola" }
-        };
-
-        const t = () => {
-          renderHook(() => useTranslations({ translations }));
-        }
-
-        expect(t).toThrow();
-      })
-    })
   });
 });
