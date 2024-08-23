@@ -1,12 +1,19 @@
 import { renderHook } from '@testing-library/react';
 import React from 'react';
 import { setGlobalTranslations, useTranslations } from './../translations';
+import { useLocale } from './use-locale';
 
-jest.mock('./use-locale');
+jest.mock('./use-locale', () => ({
+  useLocale: jest.fn(),
+}));
+
+const mockUseLocale = (useLocale as jest.Mock);
 
 describe('Translations', () => {
   describe('setGlobalTranslations', () => {
     it('should set global translations correctly', () => {
+      mockUseLocale.mockReturnValue('en');
+
       const globalTranslations = {
         common: {
           hello: {
@@ -16,7 +23,8 @@ describe('Translations', () => {
         }
       };
       setGlobalTranslations(globalTranslations);
-      const t = useTranslations({ locale: 'en' });
+
+      const t = useTranslations();
       expect(t('common.hello' as any)).toBe('Hello');
     });
   });
@@ -32,16 +40,22 @@ describe('Translations', () => {
     };
 
     it('should return correct translation for the given locale', () => {
-      const t = useTranslations({ locale: 'es', translations: localTranslations });
+      mockUseLocale.mockReturnValue('es');
+
+      const t = useTranslations({ translations: localTranslations });
       expect(t('greetings.goodMorning')).toBe('Buenos días');
     });
 
     it('should fall back to default locale if translation is missing', () => {
-      const t = useTranslations({ locale: 'fr', translations: localTranslations, defaultLocale: 'en' });
+      mockUseLocale.mockReturnValue('fr');
+
+      const t = useTranslations({ translations: localTranslations, defaultLocale: 'en' });
       expect(t('greetings.goodMorning')).toBe('Good morning');
     });
 
     it('should merge global and local translations', () => {
+      mockUseLocale.mockReturnValue('es');
+
       setGlobalTranslations({
         common: {
           hello: {
@@ -50,12 +64,14 @@ describe('Translations', () => {
           }
         }
       });
-      const t = useTranslations({ locale: 'es', translations: localTranslations });
+      const t = useTranslations({ translations: localTranslations });
       expect(t('common.hello' as any)).toBe('Hola');
       expect(t('greetings.goodMorning')).toBe('Buenos días');
     });
 
     it('should handle nested keys correctly', () => {
+      mockUseLocale.mockReturnValue('es');
+
       const nestedTranslations = {
         very: {
           nested: {
@@ -66,29 +82,33 @@ describe('Translations', () => {
           }
         }
       };
-      const t = useTranslations({ locale: 'es', translations: nestedTranslations });
+      const t = useTranslations({ translations: nestedTranslations });
       expect(t('very.nested.key')).toBe('Valor anidado');
     });
 
     it('should interpolate values correctly', () => {
+      mockUseLocale.mockReturnValue('en');
+
       const interpolationTranslations = {
         welcome: {
           en: 'Welcome, {name}!',
           es: '¡Bienvenido, {name}!'
         }
       };
-      const t = useTranslations({ locale: 'en', translations: interpolationTranslations });
+      const t = useTranslations({ translations: interpolationTranslations });
       expect(t('welcome', { name: 'John' })).toBe('Welcome, John!');
     });
 
     it('should handle rich text translations', () => {
+      mockUseLocale.mockReturnValue('en');
+
       const richTextTranslations = {
         richWelcome: {
           en: 'Welcome, <name>John</name>!',
           es: '¡Bienvenido, <name>Juan</name>!'
         }
       };
-      const t = useTranslations({ locale: 'en', translations: richTextTranslations });
+      const t = useTranslations({ translations: richTextTranslations });
       const result = t.rich('richWelcome', {
         name: (content) => <strong>{content}</strong>
       });
@@ -96,15 +116,18 @@ describe('Translations', () => {
     });
 
     it('should return key if translation is not found', () => {
-      const t = useTranslations({ locale: 'en', translations: {} });
+      mockUseLocale.mockReturnValue('en');
+
+      const t = useTranslations();
       expect(t('nonexistent.key' as any)).toBe('nonexistent.key');
     });
 
     it('should maintain separate translations for multiple hook calls', () => {
+      mockUseLocale.mockReturnValue('es');
+
       // Primera llamada al hook
       const { result: result1 } = renderHook(() =>
         useTranslations({
-          locale: 'es',
           translations: {
             key1: { es: 'Valor 1', en: 'Value 1' },
             shared: { es: 'Compartido 1', en: 'Shared 1' }
@@ -115,7 +138,6 @@ describe('Translations', () => {
       // Segunda llamada al hook
       const { result: result2 } = renderHook(() =>
         useTranslations({
-          locale: 'es',
           translations: {
             key2: { es: 'Valor 2', en: 'Value 2' },
             shared: { es: 'Compartido 2', en: 'Shared 2' }
@@ -138,6 +160,8 @@ describe('Translations', () => {
 
     describe('handling non-existent keys', () => {
       let consoleSpy: jest.SpyInstance;
+
+      mockUseLocale.mockReturnValue('en');
 
       beforeEach(() => {
         consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => { });
@@ -162,7 +186,7 @@ describe('Translations', () => {
       };
 
       it('should return the key and log a warning when the translation key does not exist for static messages', () => {
-        const t = useTranslations({ locale: 'en', translations: localTranslations });
+        const t = useTranslations({ translations: localTranslations });
 
         const nonExistentKey = 'non.existent.key';
         const result = t(nonExistentKey as any);
@@ -172,7 +196,8 @@ describe('Translations', () => {
       });
 
       it('should return the key for non-existent nested keys for static messages', () => {
-        const t = useTranslations({ locale: 'en', translations: localTranslations });
+
+        const t = useTranslations({ translations: localTranslations });
 
         const nonExistentNestedKey = 'parent.nonexistent.key';
         const result = t(nonExistentNestedKey as any);
@@ -182,7 +207,7 @@ describe('Translations', () => {
       });
 
       it('should return the key and log a warning when the translation key does not exist for rich messages', () => {
-        const t = useTranslations({ locale: 'en', translations: localTranslations });
+        const t = useTranslations({ translations: localTranslations });
 
         const nonExistentKey = 'non.existent.rich.key';
         const result = t.rich(nonExistentKey as any);
@@ -192,7 +217,7 @@ describe('Translations', () => {
       });
 
       it('should return the key for non-existent nested keys for rich messages', () => {
-        const t = useTranslations({ locale: 'en', translations: localTranslations });
+        const t = useTranslations({ translations: localTranslations });
 
         const nonExistentNestedKey = 'parent.nonexistent.rich.key';
         const result = t.rich(nonExistentNestedKey as any);
@@ -202,7 +227,7 @@ describe('Translations', () => {
       });
 
       it('should handle existing keys correctly for both static and rich messages', () => {
-        const t = useTranslations({ locale: 'en', translations: localTranslations });
+        const t = useTranslations({ translations: localTranslations });
 
         expect(t('existingKey')).toBe('Existing translation');
         expect(t('parent.child')).toBe('Nested translation');
@@ -221,8 +246,10 @@ describe('Translations', () => {
         },
       };
 
+      mockUseLocale.mockReturnValue('en');
+
       it('should return false if the key does not exist', () => {
-        const t = useTranslations({ locale: 'en', translations: localTranslations });
+        const t = useTranslations({ translations: localTranslations });
 
         const nonExistentKey = 'non.existent.key';
         const nonExistingResult = t.exists(nonExistentKey as any);

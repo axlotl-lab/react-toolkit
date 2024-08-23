@@ -13,7 +13,6 @@ type AllTranslations<T> = GlobalTranslations extends never
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
 type UseTranslationsProps<T> = {
-  locale?: string,
   translations?: NestedTranslations<T>,
   defaultLocale?: string
 }
@@ -35,11 +34,10 @@ export function setGlobalTranslations<T>(translations: NestedTranslations<T>) {
 }
 
 export const useTranslations = <T>(
-  { locale, translations, defaultLocale = 'en' }: UseTranslationsProps<T> = {}
+  { translations, defaultLocale = 'en' }: UseTranslationsProps<T> = {}
 ) => {
-  const localeFromContext = useLocale();
+  const locale = useLocale();
   const combinedTranslations = deepMerge({}, globalTranslations, translations || {});
-  const innerLocale = locale || localeFromContext;
 
   const getNestedValue = (obj: any, path: string): string | undefined => {
     const parts = path.split('.');
@@ -50,7 +48,7 @@ export const useTranslations = <T>(
       }
       current = current[part];
     }
-    return typeof current === 'object' ? current[innerLocale] || current[defaultLocale] : undefined;
+    return typeof current === 'object' ? current[locale] || current[defaultLocale] : undefined;
   };
 
   const staticMessages: StaticTranslationFunction<T> = (key, values): string => {
