@@ -1,6 +1,7 @@
+import React from "react";
 import { deepMerge } from "../../utils/deep-merge";
+import { TranslationsProviderContext } from "./translations-provider";
 import { FlattenObjectKeys, NestedTranslations } from "./types";
-import { useLocale } from "./use-locale";
 
 declare global {
   type GlobalTranslations = never
@@ -12,10 +13,7 @@ type AllTranslations<T> = GlobalTranslations extends never
 
 type TranslationKey<T> = FlattenObjectKeys<AllTranslations<T>>;
 
-type UseTranslationsProps<T> = {
-  translations?: NestedTranslations<T>,
-  defaultLocale?: string
-}
+type UseTranslationsProps<T> = { translations?: NestedTranslations<T> }
 
 type ComponentFunction = (text?: string) => React.ReactNode;
 
@@ -33,10 +31,13 @@ export function setGlobalTranslations<T>(translations: NestedTranslations<T>) {
   globalTranslations = translations;
 }
 
-export const useTranslations = <T>(
-  { translations, defaultLocale = 'en' }: UseTranslationsProps<T> = {}
-) => {
-  const locale = useLocale();
+export const useTranslations = <T>({ translations }: UseTranslationsProps<T> = {}) => {
+  const context = React.useContext(TranslationsProviderContext);
+
+  if (!context) {
+    throw new Error('It seems that the provider `<TranslationsProvider />` is not implemented.');
+  }
+
   const combinedTranslations = deepMerge({}, globalTranslations, translations || {});
 
   const getNestedValue = (obj: any, path: string): string | undefined => {
@@ -48,7 +49,7 @@ export const useTranslations = <T>(
       }
       current = current[part];
     }
-    return typeof current === 'object' ? current[locale] || current[defaultLocale] : undefined;
+    return typeof current === 'object' ? current[context.locale] || current[context.fallbackLocale] : undefined;
   };
 
   const staticMessages: StaticTranslationFunction<T> = (key, values): string => {
