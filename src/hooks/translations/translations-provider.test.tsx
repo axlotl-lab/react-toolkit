@@ -10,12 +10,12 @@ describe('TranslationsProvider', () => {
     };
 
     const { getByText } = render(
-      <TranslationsProvider locale="en">
+      <TranslationsProvider locale="es" fallbackLocale="en">
         <TestComponent />
       </TranslationsProvider>
     );
 
-    expect(getByText('en')).toBeDefined();
+    expect(getByText('es')).toBeDefined();
   });
 
   it('should memoize the context value', () => {
@@ -25,15 +25,15 @@ describe('TranslationsProvider', () => {
     };
 
     const { rerender, getByText } = render(
-      <TranslationsProvider locale="en">
+      <TranslationsProvider locale="es" fallbackLocale="en">
         <TestComponent />
       </TranslationsProvider>
     );
 
-    expect(getByText('en')).toBeDefined();
+    expect(getByText('es')).toBeDefined();
 
     rerender(
-      <TranslationsProvider locale="es">
+      <TranslationsProvider locale="es" fallbackLocale="es">
         <TestComponent />
       </TranslationsProvider>
     );

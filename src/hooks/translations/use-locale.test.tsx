@@ -5,7 +5,7 @@ import { useLocale } from './use-locale';
 
 describe('useLocale', () => {
   it('should return the locale from context', () => {
-    const mockContextValue = { locale: 'en' };
+    const mockContextValue = { locale: 'en', fallbackLocale: 'en' };
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <TranslationsProviderContext.Provider value={mockContextValue}>
