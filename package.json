@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build": "bunchee",
-    "build:publish": "npm run test && npm run build && npm publish",
+    "build:publish": "npm run build && npm publish",
     "test": "jest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
