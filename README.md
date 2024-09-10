@@ -5,9 +5,9 @@
 - [Components](#components)
   - [Repeater](#repeater)
 - [Hooks](#hooks)
+  - [useTranslations](#useTranslations)
   - [useIdle](#useidle)
   - [useCountdown](#usecountdown)
-  - [useTranslations](docs/translations.md)
   - [useLoadingDots](#useloadingdots)
 
 ## Installation
@@ -39,6 +39,9 @@ import { Repeater } from '@axlotl-lab/react-toolkit/components';
 | count | number | Yes      | The number of times the content will be repeated |
 
 ## Hooks
+
+### useTranslations
+This hook was move to it's own repository [@axlotl-lab/react-toolkit](https://github.com/axlotl-lab/react-i18n)
 
 ### useIdle
 
