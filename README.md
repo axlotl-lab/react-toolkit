@@ -171,3 +171,42 @@ function LoadingButton({ isLoading, onClick, children }) {
   );
 }
 ```
+
+### useDebounce
+
+Allows you to debounce a value, which is useful for preventing excessive API calls or expensive operations when a value changes rapidly (e.g., search input).
+
+#### Usage
+
+```jsx
+import { useDebounce } from '@axlotl-lab/react-toolkit/hooks';
+
+function SearchComponent() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  useEffect(() => {
+    // This function will only be executed 500ms after the user stops typing
+    search(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
+
+  return (
+    <input
+      type="text"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+  );
+}
+```
+
+#### Parameters
+
+| Parameter | Type   | Required | Default | Description                                    |
+|-----------|--------|----------|---------|------------------------------------------------|
+| value     | any    | Yes      | -       | The value to debounce                         |
+| delay     | number | No       | 500     | The delay in milliseconds before executing the function |
+
+#### Return Value
+
+Returns the debounced value.
