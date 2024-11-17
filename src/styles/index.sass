@@ -1,1 +1,18 @@
 @import './components/stepper'
+@import './components/table'
+
+:root
+  --gray-80-color: hsl(0, 0%, 80%)
+  --primary-color-h: 205
+  --primary-color-s: 100%
+  --primary-color-l: 35%
+  --primary-color: hsl(var(--primary-color-h), var(--primary-color-s), var(--primary-color-l))
+
+  --stepper-circle-size: 30px
+  --stepper-circle-bg-color: white
+  --stepper-circle-border: 2px solid
+  --stepper-circle-border-color: var(--gray-80-color)
+  --stepper-circle-border-color-done: var(--primary-color)
+  --stepper-step-container-gap: 10px
+  --stepper-step-label-font-size: 14px
+  --stepper-step-label-line-height: 1em

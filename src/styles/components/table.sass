@@ -1,0 +1,61 @@
+.axlotl-table
+  overflow-x: auto
+
+  table
+    font-family: var(--font-family)
+    min-width: 100%
+    background-color: var(--table-background)
+    border-color: unset
+    border-collapse: var(--table-border)
+
+    thead
+      font-size: var(--table-thead-font-size)
+
+      tr
+        background-color: var(--table-thead-tr-background)
+        color: var(--table-tr-foreground)
+        font-weight: var(--table-tr-font-weight)
+
+        th
+          padding: var(--table-th-padding)
+          text-align: left
+          transition: .3s all ease
+
+          &.sortable
+            cursor: pointer
+
+            span
+              display: flex
+              align-items: center
+
+          .sort-icon
+            width: 12px
+            height: 12px
+            margin-left: var(--table-th-icon-margin)
+            display: inline
+    tbody
+      font-size: var(--table-tbody-font-size)
+
+      tr
+        color: var(--table-tbody-foreground)
+        border-top: var(--table-tr-border)
+
+        &.odd
+          background-color: var(--table-tr-odd-foreground)
+
+        &.even
+          background-color: var(--table-tr-even-foreground)
+
+        td
+          padding: var(--table-td-padding)
+          vertical-align: top
+          transition: .3s all ease
+
+        &:hover
+          border-top: var(--table-tr-hover-border)
+
+          + tr
+            border-top: var(--table-tr-hover-border)
+
+          td
+            background-color: var(--table-tr-hover-background)
