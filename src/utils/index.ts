@@ -1,2 +1,1 @@
-export * from "./deep-merge";
-export * from "./throttle";
+export * from "./browser-storage";

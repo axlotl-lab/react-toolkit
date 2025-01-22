@@ -22,6 +22,16 @@
         "types": "./dist/hooks.d.ts",
         "default": "./dist/hooks.js"
       }
+    },
+    "./utils": {
+      "import": {
+        "types": "./dist/utils.d.mts",
+        "default": "./dist/utils.mjs"
+      },
+      "require": {
+        "types": "./dist/utils.d.ts",
+        "default": "./dist/utils.js"
+      }
     }
   },
   "files": [
