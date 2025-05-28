@@ -41,7 +41,7 @@ import { Repeater } from '@axlotl-lab/react-toolkit/components';
 ## Hooks
 
 ### useTranslations
-This hook was move to it's own repository [@axlotl-lab/react-toolkit](https://github.com/axlotl-lab/react-i18n)
+This hook was move to it's own repository [@axlotl-lab/react-i18n](https://github.com/axlotl-lab/react-i18n)
 
 ### useIdle
 
