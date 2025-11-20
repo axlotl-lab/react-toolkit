@@ -1,5 +1,7 @@
 # react-toolkit
 
+[![npm version](https://img.shields.io/npm/v/@axlotl-lab/react-toolkit.svg)](https://www.npmjs.com/package/@axlotl-lab/react-toolkit)
+
 ## Table of Contents
 - [Installation](#installation)
 - [Components](#components)
