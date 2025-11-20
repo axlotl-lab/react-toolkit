@@ -1,6 +1,6 @@
 {
   "name": "@axlotl-lab/react-toolkit",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "description": "A collection of React hooks and components for faster and easier web development.",
   "exports": {
     "./components": {
@@ -43,11 +43,11 @@
   },
   "scripts": {
     "build": "bunchee",
-    "build:publish": "npm run build && npm publish",
+    "prepublishOnly": "npm test && npm run build",
+    "release": "node ./release.js",
     "test": "jest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "release": "node ./release.js"
+    "build-storybook": "storybook build"
   },
   "author": "axlotl-lab",
   "license": "ISC",
